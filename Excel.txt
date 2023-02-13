@@ -1,0 +1,7 @@
+IF (Folder.IfFolderExists.DoesNotExist Path: UserFolderPath) THEN
+    Folder.Create FolderPath: UserFolderPath FolderName: $'''Excel'''
+END
+Excel.LaunchExcel.LaunchAndOpenUnderExistingProcess Path: $'''%UserFolderPath%\\교육02_Invoice Test.xlsx''' Visible: True ReadOnly: False Instance=> ExcelInstance
+Excel.GetFirstFreeColumnRow Instance: ExcelInstance FirstFreeColumn=> FirstFreeColumn FirstFreeRow=> FirstFreeRow
+Excel.ReadFromExcel.ReadCells Instance: ExcelInstance StartColumn: 3 StartRow: 1 EndColumn: FirstFreeColumn - 1 EndRow: FirstFreeRow - 1 ReadAsText: True FirstLineIsHeader: True RangeValue=> DataTable_ExcelData
+Excel.CloseExcel.Close Instance: ExcelInstance

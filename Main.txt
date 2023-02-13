@@ -1,0 +1,15 @@
+BLOCK error_
+ON BLOCK ERROR
+
+END
+    WebAutomation.LaunchChrome.LaunchChrome Url: $'''https://hank.invoicely.com/login ''' WindowState: WebAutomation.BrowserWindowState.Maximized ClearCache: False ClearCookies: False WaitForPageToLoadTimeout: 60 Timeout: 60 BrowserInstance=> Browser_Invoice
+    WebAutomation.GetDetailsOfWebPage BrowserInstance: Browser_Invoice DetailsType: WebAutomation.DetailsType.URLAddress Details=> Browser_login
+    IF (Folder.IfFolderExists.DoesNotExist Path: $'''%UserFolderPath%\\%username%''') THEN
+        Folder.Create FolderPath: UserFolderPath FolderName: username
+    END
+    CALL Login
+    CALL Excel
+    CALL Invoice_Loop
+    CALL Logout
+END
+CALL Log_error
